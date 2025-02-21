@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -36,25 +34,24 @@ public class MemberController {
         return ResponseEntity.ok("회원가입 성공!");
     }
 
-
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<MyPageResponse> loginMemberRequest(@RequestBody MemberRequest request, HttpSession session, Model model)
-    {
+    public ResponseEntity<MyPageResponse> loginMemberRequest(@RequestBody MemberRequest request, HttpSession session) {
         Member member = memberService.loginMember(request.getMemberId(), request.getPassword());
-        if(member != null) {
+        if (member != null) {
             session.setAttribute("member", member);
-            MyPageResponse mypageResponse = memberService.getMyPage(request.getMemberId());
-            return ResponseEntity.ok().body(mypageResponse);
+            MyPageResponse myPageResponse = memberService.getMyPage(request.getMemberId());
+            return ResponseEntity.ok().body(myPageResponse);  // 로그인 성공 시 MyPageResponse 반환
         }
-        model.addAttribute("Error", "Invalid username or password");
-        return ResponseEntity.ok().body(new MyPageResponse("로그인 실패", "로그인 실패"));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MyPageResponse("로그인 실패", "잘못된 아이디 또는 비밀번호")); // 로그인 실패 시 BAD_REQUEST 응답
     }
+
+
     // 로그아웃
     @GetMapping("/logout")
-    public ResponseEntity<Void> logoutMember(HttpSession session) {
+    public ResponseEntity<String> logoutMember(HttpSession session) {
         session.invalidate();  // 세션 무효화
-        return ResponseEntity.ok().build();  // 200 OK 응답 반환
+        return ResponseEntity.ok("로그아웃 성공");  // 200 OK 응답 반환
     }
 
 

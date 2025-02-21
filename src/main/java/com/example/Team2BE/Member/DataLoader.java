@@ -1,6 +1,5 @@
 package com.example.Team2BE.Member;
 
-import com.example.Team2BE.Member.domain.Member;
 import com.example.Team2BE.Member.service.MemberService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

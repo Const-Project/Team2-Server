@@ -18,9 +18,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    //@Autowired
-    //private MemoryMemberRepository memoryMemberRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 

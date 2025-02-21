@@ -4,6 +4,7 @@ import com.example.Team2BE.Admin.domain.Admin;
 import com.example.Team2BE.Admin.service.AdminService;
 import com.example.Team2BE.Member.domain.Member;
 import com.example.Team2BE.Order.domain.Order;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

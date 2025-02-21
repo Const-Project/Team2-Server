@@ -45,6 +45,13 @@ public class MenuService {
     }
 
     @Transactional
+    public boolean existsByMenuName(String menuName) {
+        // 메뉴 이름으로 데이터베이스에서 메뉴를 찾는 로직을 작성
+        return menuRepository.existsByMenu(menuName);  // 예시, 실제로 DB에서 확인하는 방법에 맞게 구현
+    }
+
+
+    @Transactional
     public List<Menu> getAllMenu()
     {
         List<Menu> allMenu = menuRepository.findAll();
