@@ -14,6 +14,7 @@ import lombok.Setter;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -28,9 +29,9 @@ public class Order {
     @Column
     private Long isPacked;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     public Order(String menu, Long cost, Long quantity, Long isPacked, Member member) {
         this.menu = menu;
@@ -39,4 +40,5 @@ public class Order {
         this.isPacked = isPacked;
         this.member = member;
     }
+
 }

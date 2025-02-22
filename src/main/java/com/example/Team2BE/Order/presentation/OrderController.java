@@ -14,31 +14,36 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/order")
 public class OrderController {
 
-    public OrderService orderService;
-    public MemberService memberService;
+    public final OrderService orderService;
+    public final MemberService memberService;
 
     // 주문 생성
     @PostMapping
-    public ResponseEntity<Void> createMemberRequest(@RequestBody OrderRequest request)
-    {
-        orderService.createOrder(request.getMenu(), request.getCost(), request.getQuantity(), request.getIsPacked(), request.getMemberId());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> createOrderRequest(@RequestBody OrderRequest request) {
+        orderService.createOrder(
+                request.getMenu(),
+                request.getCost(), request.getQuantity(),
+                request.getIsPacked(),
+                request.getMemberId()
+        );
+        return ResponseEntity.ok("주문이 성공적으로 생성되었습니다.");
     }
 
     // 주문 삭제
-    @DeleteMapping("/{orderId}/delete")
-    public ResponseEntity<Void> deleteOrderRequest(@RequestBody OrderRequest request)
-    {
-        orderService.deleteOrder(request.getMenu(), request.getQuantity(), request.getMemberId());
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{memberId}/{menu}/delete")
+    public ResponseEntity<String> deleteOrderRequest(
+            @PathVariable String memberId,
+            @PathVariable String menu,
+            @RequestParam Long quantity) {
+        orderService.deleteOrder(menu, quantity, memberId);
+        return ResponseEntity.ok("주문이 성공적으로 삭제되었습니다.");
     }
 
     // 주문 조회
     @GetMapping("/{memberId}/list")
-    public ResponseEntity<OrderResponse> getOrderListRequest(@RequestBody OrderRequest request)
-    {
-        OrderResponse orderResponse = new OrderResponse(orderService.getOrderList(request.getMemberId()));
-        return ResponseEntity.ok().body(orderResponse);
+    public ResponseEntity<OrderResponse> getOrderListRequest(@PathVariable String memberId) {
+        OrderResponse orderResponse = new OrderResponse(orderService.getOrderList(memberId));
+        return ResponseEntity.ok(orderResponse);
     }
-
 }
+
