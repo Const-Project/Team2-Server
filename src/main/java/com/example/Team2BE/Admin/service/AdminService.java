@@ -24,6 +24,7 @@ public class AdminService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
     private MemberRepository memberRepository;
 
     // 전체 주문 내역
@@ -51,8 +52,8 @@ public class AdminService {
 
     // 회원 강퇴
     @Transactional
-    public void deleteMember(Long memberId) {
-        Optional<Member> member = memberRepository.findById(memberId);
+    public void deleteMember(String memberId) {
+        Optional<Member> member = memberRepository.findByMemberId(memberId);
         if (member.isPresent()) {
             Member m = member.get();
             memberRepository.deleteByMemberId(m.getMemberId());
